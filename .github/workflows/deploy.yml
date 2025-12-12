@@ -6,8 +6,6 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: simple-time-service
-  IMAGE_TAG: ${{ github.sha }}
 
 jobs:
   build-and-push:
