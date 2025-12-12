@@ -7,14 +7,6 @@ Project structure
 - `app/` — Python Flask application and Dockerfile
 - `terraform/` — Infrastructure as Code (VPC, ALB, ECS)
 
-Prerequisites
-
-Install the following tools before proceeding:
-
-- Docker: https://docs.docker.com/get-docker/
-- Terraform: https://developer.hashicorp.com/terraform/downloads
-- AWS CLI: https://aws.amazon.com/cli/
-
 ---
 
 ## Part 1 — Running locally (Docker)
