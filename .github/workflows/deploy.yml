@@ -6,6 +6,8 @@ on:
 
 env:
   AWS_REGION: us-east-1
+  IMAGE_TAG: ${{ github.sha }}
+  DOCKER_IMAGE_NAME: jayesh898/app
 
 jobs:
   build-and-push:
@@ -13,12 +15,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: 1.5.0
-        terraform_wrapper: false
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
@@ -34,7 +30,9 @@ jobs:
       with:
         context: ./app
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/app:v1.0.0
+        tags: |
+          ${{ env.DOCKER_IMAGE_NAME }}:latest
+          ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
   terraform:
     needs: build-and-push
@@ -57,12 +55,13 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+        aws-region: ${{ env.AWS_REGION }}
 
     - name: Terraform Init
       run: terraform init
 
     - name: Terraform Plan
-      run: terraform plan -var="container_image=jayesh898/app:v1.0.0"
+      run: terraform plan -var="container_image=${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+
     - name: Terraform Apply
-      run: terraform apply -auto-approve -var="container_image=${{ secrets.DOCKERHUB_USERNAME }}/app:v1.0.0"
+      run: terraform apply -auto-approve -var="container_image=${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
