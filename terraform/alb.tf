@@ -34,7 +34,7 @@ resource "aws_lb_target_group" "app" {
   target_type = "ip"
 
   health_check {
-    path = "/"
+    path    = "/"
     matcher = "200"
   }
 }

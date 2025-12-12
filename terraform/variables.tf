@@ -11,7 +11,7 @@ variable "app_name" {
 variable "container_image" {
   description = "Docker image to deploy"
   type        = string
-  default     = "docker.io/" 
+  default     = "docker.io/"
 }
 
 variable "container_port" {
