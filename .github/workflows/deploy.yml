@@ -48,18 +48,23 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.5.0
+        terraform_wrapper: false
+
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+        aws-region: us-east-1
 
     - name: Terraform Init
       run: terraform init
 
     - name: Terraform Plan
-      run: terraform plan -var="container_image=${{ secrets.DOCKERHUB_USERNAME }}/app:v1.0.0"
-
+      run: terraform plan -var="container_image=jayesh898/app:v1.0.0"
     - name: Terraform Apply
       run: terraform apply -auto-approve -var="container_image=${{ secrets.DOCKERHUB_USERNAME }}/app:v1.0.0"
