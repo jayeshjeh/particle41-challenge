@@ -56,14 +56,6 @@ export AWS_SECRET_ACCESS_KEY="your_secret_key"
 export AWS_REGION="us-east-1"
 ```
 
-Windows (PowerShell):
-
-```powershell
-$Env:AWS_ACCESS_KEY_ID="your_access_key"
-$Env:AWS_SECRET_ACCESS_KEY="your_secret_key"
-$Env:AWS_REGION="us-east-1"
-```
-
 ### Initialize and apply
 
 ```bash
